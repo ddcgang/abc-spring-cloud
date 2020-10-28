@@ -14,6 +14,8 @@
         <module>abc-auth</module>
         <module>abc-common</module>
         <module>abc-gateway</module>
+        <module>abc-authcenter</module>
+        <module>abc-authserver</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -26,16 +28,20 @@
         <java.version>1.8</java.version>
         <spring.cloud.version>Finchley.SR1</spring.cloud.version>
         <spring.boot.verion>2.3.4.RELEASE</spring.boot.verion>
+        <spring.boot.redis.version>2.3.4.RELEASE</spring.boot.redis.version>
         <spring.cloud.eureka.server.version>2.2.3.RELEASE</spring.cloud.eureka.server.version>
         <spring.cloud.eureka.client.version>2.2.3.RELEASE</spring.cloud.eureka.client.version>
         <spring.cloud.openfeign.version>2.2.3.RELEASE</spring.cloud.openfeign.version>
         <spring.cloud.zuul.version>2.2.3.RELEASE</spring.cloud.zuul.version>
+        <spring.cloud.security.version>2.2.4.RELEASE</spring.cloud.security.version>
         <lombok.version>1.18.12</lombok.version>
         <mysql.version>8.0.21</mysql.version>
         <tk.mapper.version>4.1.4</tk.mapper.version>
+        <jedis.version>3.3.0</jedis.version>
     </properties>
     <dependencyManagement>
         <dependencies>
+            <!--cloud-->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
@@ -53,15 +59,28 @@
                 <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
                 <version>${spring.cloud.eureka.client.version}</version>
             </dependency>
+            <!--feign-->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-openfeign</artifactId>
                 <version>${spring.cloud.openfeign.version}</version>
             </dependency>
+            <!--zuul-->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-netflix-zuul</artifactId>
                 <version>${spring.cloud.zuul.version}</version>
+            </dependency>
+            <!--security&oauth2-->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-security</artifactId>
+                <version>${spring.cloud.security.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-oauth2</artifactId>
+                <version>${spring.cloud.security.version}</version>
             </dependency>
             <!--spring.boot-->
             <dependency>
@@ -103,6 +122,23 @@
                 <groupId>tk.mybatis</groupId>
                 <artifactId>mapper</artifactId>
                 <version>${tk.mapper.version}</version>
+            </dependency>
+            <!-- redis  -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-redis</artifactId>
+                <version>${spring.boot.redis.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.lettuce</groupId>
+                        <artifactId>lettuce-core</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>redis.clients</groupId>
+                <artifactId>jedis</artifactId>
+                <version>${jedis.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

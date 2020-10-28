@@ -44,6 +44,11 @@
             <artifactId>abc-common</artifactId>
             <version>1.0</version>
         </dependency>
+       <!-- <dependency>
+            <groupId>com.abc</groupId>
+            <artifactId>abc-auth</artifactId>
+            <version>1.0</version>
+        </dependency>-->
     </dependencies>
 
 

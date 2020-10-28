@@ -49,14 +49,12 @@ public class GateWayFilter extends ZuulFilter {
      */
     @Override
     public Object run() throws ZuulException {
-        //setsend
-        System.out.println("经过过滤器了");
+        //System.out.println("经过过滤器了");
         RequestContext requestContext = RequestContext.getCurrentContext();
         HttpServletRequest request = requestContext.getRequest();
         String header = request.getHeader("Authorization");//Authorization敏感词 需配置sensitive-headers: null 否则不转发
         if (header != null && !"".equals(header)) {
             requestContext.addZuulRequestHeader("Authorization", header);
-            System.out.println(header);
         }
         return null;
     }

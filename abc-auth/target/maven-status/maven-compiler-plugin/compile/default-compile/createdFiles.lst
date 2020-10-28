@@ -1,5 +1,8 @@
 com\abc\auth\AuthApplication.class
+com\abc\auth\config\AuthorizationServerConfig.class
+com\abc\auth\feign\impl\UserClientImpl.class
 com\abc\auth\controller\UserController.class
 com\abc\auth\feign\UserClient.class
-com\abc\auth\feign\impl\UserClientImpl.class
 com\abc\auth\controller\BaseController.class
+com\abc\auth\config\ResourceServerConfig.class
+com\abc\auth\config\WebSecurityConfig.class

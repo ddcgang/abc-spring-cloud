@@ -10,14 +10,12 @@ import java.util.Date;
 
 @RequestMapping("/user")
 @RestController
-@CrossOrigin
-@RefreshScope
 public class UserController extends BaseController {
 
     @GetMapping("/find/{userName}")
     public String findByUserName(@PathVariable("userName") String userName) {
         System.out.println("-----------" + request.getHeader("Authorization"));
-        return "usercenter->" + userName + "|usercenter header:" + request.getHeader("Authorization");
+        return "usercenter->" + userName;
     }
 
     @GetMapping("/list")

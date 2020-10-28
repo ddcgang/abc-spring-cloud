@@ -5,7 +5,7 @@ import com.abc.common.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/user")
+
 @RestController
 public class UserController extends BaseController {
 
@@ -21,5 +21,20 @@ public class UserController extends BaseController {
     public String findByName(@PathVariable("userName") String userName) {
         System.out.println(userName);
         return "auth->" + userClient.findByUserName(userName);
+    }
+
+    @GetMapping("/admin/hello")
+    public String admin() {
+        return "hello admin";
+    }
+
+    @GetMapping("/user/hello")
+    public String user() {
+        return "hello user";
+    }
+
+    @GetMapping("/hello")
+    public String hello() {
+        return "hello";
     }
 }
