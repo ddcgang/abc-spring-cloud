@@ -1,0 +1,5 @@
+com\abc\usercenter\dao\sys\UserMapper.class
+com\abc\usercenter\model\sys\User.class
+com\abc\usercenter\controller\BaseController.class
+com\abc\usercenter\controller\sys\UserController.class
+com\abc\usercenter\UserCenterApplication.class

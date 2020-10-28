@@ -1,0 +1,56 @@
+server:
+  port: 2001
+  context-path: /
+eureka:
+  instance:
+    hostname: e1.abc.com
+  server:
+    enable-self-preservation: false #是否开启自我保护模式
+    eviction-interval-timer-in-ms: 60000 #服务注册表清理间隔（单位毫秒，默认是60*1000
+  client:
+    registerWithEureka: true #服务注册，是否将自己注册到Eureka服务中
+    fetchRegistry: true #服务发现，是否从Eureka中获取注册信息
+    service-url:
+      defaultZone: http://e2.abc.com:2002/eureka/,http://e3.abc.com:2003/eureka/
+spring:
+  profiles: e1
+  application:
+    name: abc-eurekaserver
+---
+server:
+  port: 2002
+  context-path: /
+eureka:
+  instance:
+    hostname: e2.abc.com
+  server:
+    enable-self-preservation: false #是否开启自我保护模式
+    eviction-interval-timer-in-ms: 60000 #服务注册表清理间隔（单位毫秒，默认是60*1000
+  client:
+    registerWithEureka: true #服务注册，是否将自己注册到Eureka服务中
+    fetchRegistry: true #服务发现，是否从Eureka中获取注册信息
+    service-url:
+      defaultZone: http://e1.abc.com:2001/eureka/,http://e3.abc.com:2003/eureka/
+spring:
+  profiles: e2
+  application:
+    name: abc-eurekaserver
+---
+server:
+  port: 2003
+  context-path: /
+eureka:
+  instance:
+    hostname: e3.abc.com
+  server:
+    enable-self-preservation: false #是否开启自我保护模式
+    eviction-interval-timer-in-ms: 60000 #服务注册表清理间隔（单位毫秒，默认是60*1000
+  client:
+    registerWithEureka: true #服务注册，是否将自己注册到Eureka服务中
+    fetchRegistry: true #服务发现，是否从Eureka中获取注册信息
+    service-url:
+      defaultZone: http://e1.abc.com:2001/eureka/,http://e2.abc.com:2002/eureka/
+spring:
+  profiles: e3
+  application:
+    name: abc-eurekaserver

@@ -1,0 +1,16 @@
+server:
+  port: 2100
+spring:
+  application:
+    name: abc-usercenter
+  datasource:
+    url: jdbc:mysql://localhost:3306/securitylogin?characterEncoding=utf8&useSSL=false&serverTimezone=UTC
+    username: root
+    password: root159
+    driver-class-name: com.mysql.cj.jdbc.Driver
+eureka:
+  client:
+    registerWithEureka: true #服务注册，是否将自己注册到Eureka服务中
+    fetchRegistry: true #服务发现，是否从Eureka中获取注册信息
+    service-url:
+      defaultZone: http://e1.abc.com:2001/eureka/

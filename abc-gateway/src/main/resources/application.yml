@@ -1,0 +1,20 @@
+server:
+  port: 2300
+spring:
+  application:
+    name: abc-gateway
+eureka:
+  client:
+    registerWithEureka: true #服务注册，是否将自己注册到Eureka服务中
+    fetchRegistry: true #服务发现，是否从Eureka中获取注册信息
+    service-url:
+      defaultZone: http://e1.abc.com:2001/eureka/
+zuul:
+  routes:
+    abc-auth:
+      path: /api-auth/**
+      serviceId: abc-auth
+    abc-usercenter:
+      path: /api-usercenter/**
+      serviceId: abc-usercenter
+  sensitive-headers: null #网关将header传递到对应的微服务，若不设置，需在网关过滤器中转发header
