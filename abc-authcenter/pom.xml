@@ -12,8 +12,8 @@
     <artifactId>abc-authcenter</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>abc-resourceserver</module>
         <module>abc-authserver</module>
+        <module>abc-resourceserver</module>
     </modules>
 
 

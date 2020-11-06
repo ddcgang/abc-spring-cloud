@@ -6,9 +6,8 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="abc-resourceserver" />
-        <module name="uabc-authserver" />
         <module name="abc-auth" />
+        <module name="abc-resourceserver" />
         <module name="abc-authserver" />
         <module name="abc-common" />
         <module name="abc_eurekaserver" />
@@ -16,9 +15,6 @@
         <module name="abc-gateway" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="uabc-authserver" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
@@ -30,7 +26,6 @@
       <module name="abc-resourceserver" options="-parameters" />
       <module name="abc-usercenter" options="-parameters" />
       <module name="abc_eurekaserver" options="-parameters" />
-      <module name="uabc-authserver" options="-parameters" />
     </option>
   </component>
 </project>
