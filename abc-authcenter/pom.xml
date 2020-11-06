@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>abc-authserver</module>
+        <module>abc-resourceserver</module>
     </modules>
 
 

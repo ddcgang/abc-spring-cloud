@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="abc-auth" />
+        <module name="abc-resourceserver" />
         <module name="abc-authserver" />
         <module name="abc-common" />
         <module name="abc_eurekaserver" />
@@ -22,6 +23,7 @@
       <module name="abc-authserver" options="-parameters" />
       <module name="abc-common" options="-parameters" />
       <module name="abc-gateway" options="-parameters" />
+      <module name="abc-resourceserver" options="-parameters" />
       <module name="abc-usercenter" options="-parameters" />
       <module name="abc_eurekaserver" options="-parameters" />
     </option>
