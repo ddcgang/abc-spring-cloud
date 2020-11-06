@@ -1,5 +1,8 @@
 E:\wwwroot\Java\wwwroot\abc_parent\abc-auth\src\main\java\com\abc\auth\AuthApplication.java
+E:\wwwroot\Java\wwwroot\abc_parent\abc-auth\src\main\java\com\abc\auth\config\WebSecurityConfig.java
 E:\wwwroot\Java\wwwroot\abc_parent\abc-auth\src\main\java\com\abc\auth\feign\UserClient.java
+E:\wwwroot\Java\wwwroot\abc_parent\abc-auth\src\main\java\com\abc\auth\config\AuthorizationServerConfig.java
 E:\wwwroot\Java\wwwroot\abc_parent\abc-auth\src\main\java\com\abc\auth\controller\UserController.java
 E:\wwwroot\Java\wwwroot\abc_parent\abc-auth\src\main\java\com\abc\auth\feign\impl\UserClientImpl.java
 E:\wwwroot\Java\wwwroot\abc_parent\abc-auth\src\main\java\com\abc\auth\controller\BaseController.java
+E:\wwwroot\Java\wwwroot\abc_parent\abc-auth\src\main\java\com\abc\auth\config\ResourceServerConfig.java
