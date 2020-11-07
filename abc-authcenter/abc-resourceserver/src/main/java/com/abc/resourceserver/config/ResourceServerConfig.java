@@ -1,7 +1,10 @@
 package com.abc.resourceserver.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
@@ -10,10 +13,14 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 @Configuration
 @EnableResourceServer
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
+    @Autowired
+    private RedisConnectionFactory redisConnectionFactory;
 
     @Bean
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
@@ -24,13 +31,19 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Bean
     public TokenStore tokenStore() {
-        return new JwtTokenStore(jwtAccessTokenConverter());
+        /*JwtToken*/
+        //return new JwtTokenStore(jwtAccessTokenConverter());
+        /*redis*/
+        RedisTokenStore redisTokenStore=new RedisTokenStore(redisConnectionFactory);
+        redisTokenStore.setPrefix("abc-auth-token:");
+        return redisTokenStore;
     }
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-        resources.tokenStore(tokenStore());
+        resources.resourceId("ABC").tokenStore(tokenStore());
     }
+
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()

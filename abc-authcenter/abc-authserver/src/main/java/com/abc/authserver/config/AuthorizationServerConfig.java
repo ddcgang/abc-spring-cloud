@@ -1,6 +1,9 @@
 package com.abc.authserver.config;
 
 import com.abc.authserver.client.RedisClientDetailsService;
+import com.abc.authserver.service.impl.UserDetailsServiceImpl;
+import com.abc.authserver.store.RedisTemplateTokenStore;
+import com.abc.authserver.token.SingleTokenServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,6 +11,9 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -22,8 +28,8 @@ import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
 
 
 import javax.sql.DataSource;
@@ -38,6 +44,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     AuthenticationManager authenticationManager;
     @Autowired
     RedisConnectionFactory redisConnectionFactory;
+    @Autowired
+    UserDetailsServiceImpl userDetailsService;
+
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
@@ -67,15 +76,19 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Bean
     public TokenStore tokenStore() {
-        /* redis
-        RedisTokenStore redisTokenStore=new RedisTokenStore(redisConnectionFactory);
-        redisTokenStore.setPrefix("auth-token");
-        return  redisTokenStore;
-        */
-        /*jwt token*/
+        RedisTokenStore redisTokenStore = new RedisTokenStore(redisConnectionFactory);
+        redisTokenStore.setPrefix("abc-auth-token:");
+        return redisTokenStore;
+
+
+        /*jwt token
         return new JwtTokenStore(jwtAccessTokenConverter());
+        */
     }
 
+    /*
+     * JwtToken配置
+     * */
     @Bean
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
         JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
@@ -83,12 +96,16 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         return jwtAccessTokenConverter;
     }
 
-    //配置返回jwt格式的token 转换
+    /*
+     * JwtToken配置
+     * 配置返回jwt格式的token 转换
+     * */
     public TokenEnhancerChain tokenEnhancerChain() {
         TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
         tokenEnhancerChain.setTokenEnhancers(Arrays.asList(jwtAccessTokenConverter()));
         return tokenEnhancerChain;
     }
+
 
     @Bean
     public DefaultTokenServices tokenService() {
@@ -105,7 +122,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         //对应上面的token存储配置
         defaultTokenServices.setTokenStore(tokenStore());
         //配置返回jwt格式的token 转换
-        defaultTokenServices.setTokenEnhancer(tokenEnhancerChain());
+        //defaultTokenServices.setTokenEnhancer(tokenEnhancerChain());
         return defaultTokenServices;
     }
 
