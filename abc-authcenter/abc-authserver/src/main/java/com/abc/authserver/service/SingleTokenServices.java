@@ -1,4 +1,5 @@
-package com.abc.authserver.token;/*
+package com.abc.authserver.service;
+/*
  * Copyright 2008 Web Cohesion
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
@@ -42,8 +43,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 /**
- * 参考博客地址：
- * https://www.cnblogs.com/panchanggui/p/12395451.html
+ * 参考
+ * https://my.oschina.net/u/3768341/blog/2998273
  *
  */
 public class SingleTokenServices implements AuthorizationServerTokenServices, ResourceServerTokenServices,

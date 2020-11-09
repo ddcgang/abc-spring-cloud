@@ -17,9 +17,15 @@ public class TestController {
     }
 
     @GetMapping("/user/{name}")
-    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @PreAuthorize("hasPermission('/product/list','product:list')")
     public String findByName(@PathVariable("name") String name, Authentication authentication){
         System.out.println(authentication.getAuthorities().toString());
         return name;
+    }
+    @GetMapping("/list")
+    //@PreAuthorize("hasAuthority('abc-usercenter:test:list')")
+    public String list(Authentication authentication){
+        System.out.println(authentication.getAuthorities().toString());
+        return "list";
     }
 }

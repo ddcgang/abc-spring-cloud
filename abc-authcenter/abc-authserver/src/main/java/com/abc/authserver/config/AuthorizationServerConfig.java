@@ -2,8 +2,7 @@ package com.abc.authserver.config;
 
 import com.abc.authserver.client.RedisClientDetailsService;
 import com.abc.authserver.service.impl.UserDetailsServiceImpl;
-import com.abc.authserver.store.RedisTemplateTokenStore;
-import com.abc.authserver.token.SingleTokenServices;
+import com.abc.authserver.service.SingleTokenServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,9 +10,6 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -24,12 +20,10 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.error.DefaultWebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
-import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
 
 
 import javax.sql.DataSource;
@@ -66,7 +60,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         endpoints.authenticationManager(authenticationManager)
                 .exceptionTranslator(webResponseExceptionTranslator())
                 .tokenStore(tokenStore())
-                .tokenServices(tokenService());
+                .tokenServices(tokenServices(endpoints));
     }
 
     @Bean
@@ -107,25 +101,28 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     }
 
 
-    @Bean
-    public DefaultTokenServices tokenService() {
-        DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
-        //defaultTokenServices.setClientDetailsService(clientDetailsService());
-        //access_token 的有效期,如果数据库中配置了的话,会覆盖该值,如果想通过数据库的值来覆盖下面这俩值的话
-        //需要有上面的配置defaultTokenServices.setClientDetailsService(clientDetailsService()),否则无法覆盖
-        defaultTokenServices.setAccessTokenValiditySeconds(60 * 60);// 一小时
-        //refresh_token 的有效期,如果数据库中配置了的话,会覆盖该值
-        defaultTokenServices.setRefreshTokenValiditySeconds(60 * 60 * 24 * 7);//7天
-
-        //是否支持返回refresh_token,false 将不会返回refresh_token
-        defaultTokenServices.setSupportRefreshToken(true);
-        //对应上面的token存储配置
-        defaultTokenServices.setTokenStore(tokenStore());
-        //配置返回jwt格式的token 转换
-        //defaultTokenServices.setTokenEnhancer(tokenEnhancerChain());
-        return defaultTokenServices;
+    private SingleTokenServices tokenServices(AuthorizationServerEndpointsConfigurer endpoints) {
+        SingleTokenServices tokenServices = new SingleTokenServices();
+        tokenServices.setTokenStore(tokenStore());
+        tokenServices.setSupportRefreshToken(true);//支持刷新token
+        tokenServices.setReuseRefreshToken(true);
+        tokenServices.setAccessTokenValiditySeconds(60 * 60);
+        tokenServices.setRefreshTokenValiditySeconds(60 * 60 * 24 * 7);
+        tokenServices.setClientDetailsService(endpoints.getClientDetailsService());
+        tokenServices.setTokenEnhancer(endpoints.getTokenEnhancer());
+        //addUserDetailsService(tokenServices, this.userDetailsService);
+        return tokenServices;
     }
 
+    /*
+        private void addUserDetailsService(SingleTokenServices tokenServices, UserDetailsServiceImpl userDetailsService) {
+            if (userDetailsService != null) {
+                PreAuthenticatedAuthenticationProvider provider = new PreAuthenticatedAuthenticationProvider();
+                provider.setPreAuthenticatedUserDetailsService(new UserDetailsByNameServiceWrapper<>(
+                        userDetailsService));
+                tokenServices.setAuthenticationManager(new ProviderManager(Arrays.asList(provider)));
+            }
+        }*/
     @Bean
     public WebResponseExceptionTranslator webResponseExceptionTranslator() {
         return new DefaultWebResponseExceptionTranslator() {

@@ -6,11 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="abc-resourceserver" />
         <module name="abc-authserver" />
-        <module name="abc-common" />
+        <module name="abc-resourceserver" />
         <module name="abc_eurekaserver" />
         <module name="abc-usercenter" />
+        <module name="abc-common" />
         <module name="abc-gateway" />
       </profile>
     </annotationProcessing>
